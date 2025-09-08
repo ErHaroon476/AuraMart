@@ -8,7 +8,7 @@ import { Product } from "@/types/product";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-import { ShieldCheck, RefreshCcw, Truck, ThumbsUp } from "lucide-react";
+import { ShieldCheck, LucideTimer, Truck, ThumbsUp } from "lucide-react";
 
 
 const banners = ["/B1.png", "/B2.png"];
@@ -148,28 +148,28 @@ export default function LandingPage() {
      
         {/* Authentic products */}
    <div className="flex flex-col items-center gap-8">
-     <ShieldCheck className="w-16 h-16 text-gray-700" strokeWidth={1.3} />
-     <p className="text-lg font-semibold text-gray-800">100% Genuine Products</p>
+     <ShieldCheck className="w-12 h-12 text-gray-600" strokeWidth={1.3} />
+     <p className="text-lg font-semibold text-gray-700">100% Genuine Products</p>
    </div>
 
-   {/* Trusted */}
+   {/* fast delivery */}
    <div className="flex flex-col items-center gap-8">
-     <RefreshCcw className="w-16 h-16 text-gray-700" strokeWidth={1.3} />
-     <p className="text-lg font-semibold text-gray-800">Trusted</p>
+     <LucideTimer className="w-12 h-12 text-gray-600" strokeWidth={1.3} />
+     <p className="text-lg font-semibold text-gray-700">Fast Delivery</p>
    </div>
 
    {/* Free Delivery */}
    <div className="flex flex-col items-center gap-8">
-     <Truck className="w-16 h-16 text-gray-700" strokeWidth={1.3} />
-     <p className="text-lg font-semibold text-gray-800">
+     <Truck className="w-12 h-12 text-gray-600" strokeWidth={1.3} />
+     <p className="text-lg font-semibold text-gray-700">
        Free Delivery Over 2000 Shopping
      </p>
    </div>
 
    {/* Customers */}
    <div className="flex flex-col items-center gap-8">
-     <ThumbsUp className="w-16 h-16 text-gray-700" strokeWidth={1.3} />
-     <p className="text-lg font-semibold text-gray-800">
+     <ThumbsUp className="w-12 h-12 text-gray-600" strokeWidth={1.3} />
+     <p className="text-lg font-semibold text-gray-700">
        10,000+ Happy Customers
      </p>
    </div>
@@ -185,11 +185,11 @@ export default function LandingPage() {
     Shop by Category
   </h2>
 
-  <div className="flex flex-wrap justify-center gap-5 sm:gap-8 md:gap-10 px-4">
+  <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 px-4">
     {categories.map((cat, idx) => (
       <motion.div
         key={cat.slug}
-        whileHover={{ scale: 1.12, rotate: 2 }}
+        whileHover={{ scale: 1.1, rotate: 2 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -203,21 +203,22 @@ export default function LandingPage() {
           <img
             src={cat.img}
             alt={cat.name}
-            className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full border-2 border-orange-700 p-1 shadow-lg transition"
+            className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full border-2 border-orange-700 p-1 shadow-md transition"
           />
           {selectedCategory === cat.slug && (
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-orange-700 text-white text-xs px-3 py-0.5 rounded-full shadow-md">
+            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-orange-700 text-white text-xs px-2 py-0.5 rounded-full shadow-md">
               Active
             </span>
           )}
         </div>
-        <span className="mt-3 font-semibold text-sm md:text-base text-orange-800">
+        <span className="mt-2 font-semibold text-xs sm:text-sm md:text-base text-orange-800">
           {cat.name}
         </span>
       </motion.div>
     ))}
   </div>
 </section>
+
       {/* Filtered Products */}
       <section className="container mx-auto px-4 md:px-6 mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center capitalize">

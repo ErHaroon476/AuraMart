@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Trash2, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
+import { useRouter } from "next/navigation";
 
 interface CartItem extends Product {
   quantity: number;
@@ -14,7 +15,7 @@ interface CartItem extends Product {
 export default function CartPage() {
   const { items, removeItem, clearCart, addItem } = useCartStore();
   const [loading, setLoading] = useState(true);
-
+  const router=useRouter();
   // Simulate loading for persisted cart items
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 200);
@@ -60,12 +61,17 @@ export default function CartPage() {
       >
         <ShoppingCart className="mx-auto h-16 w-16 text-gray-400 mb-4" />
         <h1 className="text-3xl font-bold mb-2">Your Cart is Empty 🛒</h1>
-        <Link
-          href="/products"
-          className="inline-block mt-4 px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700"
-        >
-          Browse Products
-        </Link>
+       
+<div className="text-center mb-20">
+  <motion.button
+    onClick={() => router.push("/products")}
+    whileHover={{ scale: 1.08 }}
+    whileTap={{ scale: 0.95 }}
+    className="bg-gradient-to-r from-orange-700 to-orange-900 text-white font-semibold px-10 py-3 rounded-full shadow-lg hover:from-orange-600 hover:to-orange-800 transition-all duration-300"
+  >
+    View All Products
+  </motion.button>
+</div>
       </motion.div>
     );
   }
