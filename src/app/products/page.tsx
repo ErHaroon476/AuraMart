@@ -8,7 +8,6 @@ import { db } from "@/lib/firebase";
 import { collection, onSnapshot, QueryDocumentSnapshot } from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
 
-// Categories
 const categories = [
   { name: "All Products", slug: "all" },
   { name: "Facial Care", slug: "facial-care" },
@@ -19,6 +18,7 @@ const categories = [
 ];
 
 export default function ProductsPage() {
+  const [mounted, setMounted] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,14 +26,13 @@ export default function ProductsPage() {
 
   const searchParams = useSearchParams();
 
-  // 🔹 Get search query on client side
+  // ✅ Only run on client
   useEffect(() => {
+    setMounted(true);
+
     const query = searchParams.get("search")?.toLowerCase() || "";
     setSearchQuery(query);
-  }, [searchParams]);
 
-  // 🔹 Fetch products
-  useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "products"), (snapshot) => {
       const fetchedProducts: Product[] = snapshot.docs.map(
         (doc: QueryDocumentSnapshot) =>
@@ -48,9 +47,13 @@ export default function ProductsPage() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [searchParams]);
 
-  // 🔹 Filter products
+  if (!mounted) {
+    // Render nothing until mounted
+    return null;
+  }
+
   const filteredProducts = products.filter((p: Product) => {
     const matchesCategory =
       selectedCategory === "all" ||
