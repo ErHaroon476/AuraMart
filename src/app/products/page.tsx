@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import ProductGrid from "@/Components/products/productgrid";
 import { Product } from "@/types/product";
@@ -17,8 +17,7 @@ const categories = [
   { name: "Parlour Items", slug: "parlour-items" },
 ];
 
-export default function ProductsPage() {
-  const [mounted, setMounted] = useState(false);
+function ProductsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,10 +25,7 @@ export default function ProductsPage() {
 
   const searchParams = useSearchParams();
 
-  // ✅ Only run on client
   useEffect(() => {
-    setMounted(true);
-
     const query = searchParams.get("search")?.toLowerCase() || "";
     setSearchQuery(query);
 
@@ -41,15 +37,12 @@ export default function ProductsPage() {
             ...doc.data(),
           } as Product)
       );
-
       setProducts(fetchedProducts);
       setLoading(false);
     });
 
     return () => unsubscribe();
   }, [searchParams]);
-
-  if (!mounted) return null; // ✅ Fix for SSR + useSearchParams
 
   const filteredProducts = products.filter((p: Product) => {
     const matchesCategory =
@@ -95,5 +88,13 @@ export default function ProductsPage() {
         <p className="text-center text-gray-500 mt-10">No products found.</p>
       )}
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<p className="text-center mt-10">Loading products...</p>}>
+      <ProductsPageContent />
+    </Suspense>
   );
 }
