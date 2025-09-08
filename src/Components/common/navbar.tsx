@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useCartStore } from "@/store/cartstore";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar() {
   const cartCount = useCartStore((state) => state.items.length);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const [query, setQuery] = useState("");
 
   const links = [
     { href: "/", label: "Home" },
@@ -17,24 +21,51 @@ export default function Navbar() {
     { href: "/aboutus", label: "About Us" },
   ];
 
+  // Handle Search Submit
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim() !== "") {
+      router.push(`/products?search=${encodeURIComponent(query)}`);
+    }
+  };
+
   return (
     <nav className="bg-orange-900 shadow-xl rounded-b-2xl sticky top-0 z-50">
       <div className="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 sm:py-3">
-        {/* Logo + Brand */}
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          <Image
-            src="/logo.jpg"
-            alt="AAMart Logo"
-            width={30}
-            height={30}
-            className="sm:w-12 sm:h-12 rounded-full border border-transparent shadow-[0_0_20px_rgba(255,140,66,0.6)]"
-          />
-          <span className="text-lg sm:text-xl font-bold tracking-wide text-white select-none">
-            AA
-            <span className="text-orange-400 drop-shadow-[0_0_10px_rgba(255,140,66,0.7)]">
-              Mart
+        {/* Logo + Brand + Search */}
+        <div className="flex items-center space-x-3 sm:space-x-5 w-full md:w-auto">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <Image
+              src="/logo.jpg"
+              alt="AAMart Logo"
+              width={30}
+              height={30}
+              className="sm:w-12 sm:h-12 rounded-full border border-transparent shadow-[0_0_20px_rgba(255,140,66,0.6)]"
+            />
+            <span className="text-lg sm:text-xl font-bold tracking-wide text-white select-none">
+              AA
+              <span className="text-orange-400 drop-shadow-[0_0_10px_rgba(255,140,66,0.7)]">
+                Mart
+              </span>
             </span>
-          </span>
+          </div>
+
+          {/* Search Bar */}
+          <form
+            onSubmit={handleSearch}
+            className="flex items-center bg-white rounded-full shadow-md px-3 py-1 ml-4 flex-grow max-w-sm"
+          >
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products..."
+              className="flex-grow px-2 text-sm outline-none text-gray-700"
+            />
+            <button type="submit">
+              <Search className="text-orange-600 w-4 h-4" />
+            </button>
+          </form>
         </div>
 
         {/* Navigation Links */}
