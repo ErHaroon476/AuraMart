@@ -49,10 +49,7 @@ export default function ProductsPage() {
     return () => unsubscribe();
   }, [searchParams]);
 
-  if (!mounted) {
-    // Render nothing until mounted
-    return null;
-  }
+  if (!mounted) return null; // ✅ Fix for SSR + useSearchParams
 
   const filteredProducts = products.filter((p: Product) => {
     const matchesCategory =
@@ -89,15 +86,13 @@ export default function ProductsPage() {
         ))}
       </div>
 
-      {/* Products */}
+      {/* Products Grid */}
       {loading ? (
         <p className="text-center text-gray-500">Loading products...</p>
       ) : filteredProducts.length > 0 ? (
         <ProductGrid products={filteredProducts} />
       ) : (
-        <p className="text-center text-gray-500 mt-10">
-          No products found.
-        </p>
+        <p className="text-center text-gray-500 mt-10">No products found.</p>
       )}
     </div>
   );
