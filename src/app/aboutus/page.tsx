@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 export default function AboutUs() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 text-orange-900">
-      {/* Hero Section */}
+    <main className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 text-orange-900 rounded-t-3xl overflow-hidden">
+  {/* Hero Section */}
       <section className="bg-orange-900 text-white py-16 px-6 text-center rounded-b-3xl shadow-lg">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
