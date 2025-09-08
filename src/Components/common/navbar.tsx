@@ -22,15 +22,15 @@ export default function Navbar() {
         <div className="flex items-center space-x-3">
           <Image
             src="/logo.jpg"
-            alt="Aura Mart Logo"
+            alt="AAMart Logo"
             width={48}
             height={48}
             className="rounded-full border border-transparent shadow-[0_0_20px_rgba(255,140,66,0.6)]"
           />
           <span className="text-xl font-bold tracking-wide text-white select-none">
-            Aura
+            AA
             <span className="text-orange-400 drop-shadow-[0_0_10px_rgba(255,140,66,0.7)]">
-              Mart
+            Mart
             </span>
           </span>
         </div>

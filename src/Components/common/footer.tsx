@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Brand & Trust */}
         <div className="space-y-3">
-          <h2 className="text-xl font-bold text-white">Aura<span className="text-orange-400">Mart</span></h2>
+          <h2 className="text-xl font-bold text-white">AA<span className="text-orange-400">Mart</span></h2>
           <p className="text-sm text-orange-200">
             Your trusted source for premium cosmetics and skincare.
           </p>
@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-end justify-center space-y-2">
           <p className="text-sm text-orange-200">Trusted by thousands of beauty lovers</p>
           <p className="text-xs text-orange-300">
-            © {new Date().getFullYear()} AuraMart. All rights reserved.
+            © {new Date().getFullYear()} AA Mart. All rights reserved.
           </p>
         </div>
       </div>

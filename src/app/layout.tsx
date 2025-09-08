@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import LayoutWrapper from "./layout-wrapper";
 
 export const metadata = {
-  title: "AuraMart",
+  title: "AAMart",
   description: "Top Wholsale Cosmetics Store",
 };
 
