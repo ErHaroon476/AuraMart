@@ -8,12 +8,12 @@ export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addItem);
 
   return (
-    <div className="group border rounded-2xl p-4 shadow-sm hover:shadow-md transition bg-white max-w-xs">
+    <div className="group border rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition bg-white">
       {/* Wrap clickable content in Link */}
       <Link href={`/products/${product.id}`}>
         {/* Product Image */}
-        <div className="relative w-full h-48 md:h-56 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
-          {/* Blurred background for small images */}
+        <div className="relative w-full h-40 sm:h-48 md:h-56 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+          {/* Blurred background */}
           <div
             className="absolute inset-0 bg-gray-200"
             style={{
@@ -27,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <img
             src={product.imageUrl}
             alt={product.title}
-            className="relative w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+            className="relative w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Discount Badge */}
@@ -39,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-semibold mt-3 group-hover:text-orange-600 transition">
+        <h3 className="text-sm sm:text-base font-semibold mt-2 sm:mt-3 group-hover:text-orange-600 transition line-clamp-2">
           {product.title}
         </h3>
 
@@ -47,15 +47,17 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="mt-1">
           {product.discountedPrice < product.actualPrice ? (
             <div className="flex items-center gap-2">
-              <p className="text-red-600 font-bold">
+              <p className="text-red-600 font-bold text-sm sm:text-base">
                 Rs. {product.discountedPrice}
               </p>
-              <p className="text-gray-500 line-through text-sm">
+              <p className="text-gray-500 line-through text-xs sm:text-sm">
                 Rs. {product.actualPrice}
               </p>
             </div>
           ) : (
-            <p className="text-gray-800 font-bold">Rs. {product.actualPrice}</p>
+            <p className="text-gray-800 font-bold text-sm sm:text-base">
+              Rs. {product.actualPrice}
+            </p>
           )}
         </div>
       </Link>
@@ -63,10 +65,10 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* Add to Cart */}
       <button
         onClick={(e) => {
-          e.stopPropagation(); // prevent Link click
+          e.stopPropagation();
           addToCart(product);
         }}
-        className="mt-4 w-full bg-orange-600 hover:bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-xl shadow-md transition"
+        className="mt-3 w-full bg-orange-600 hover:bg-orange-500 text-white text-xs sm:text-sm font-medium px-3 py-2 rounded-lg shadow-md transition"
       >
         🛒 Add to Cart
       </button>

@@ -25,8 +25,8 @@ export default function Navbar() {
           <Image
             src="/logo.jpg"
             alt="AAMart Logo"
-            width={40}
-            height={40}
+            width={30}
+            height={30}
             className="sm:w-12 sm:h-12 rounded-full border border-transparent shadow-[0_0_20px_rgba(255,140,66,0.6)]"
           />
           <span className="text-lg sm:text-xl font-bold tracking-wide text-white select-none">
@@ -38,7 +38,7 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex flex-wrap items-center space-x-4 sm:space-x-6 md:space-x-10 mt-2 sm:mt-0">
+        <div className="flex flex-wrap items-center space-x-3 sm:space-x-5 md:space-x-8 mt-2 sm:mt-0">
           {links.map((link) => (
             <Link
               key={link.href}
