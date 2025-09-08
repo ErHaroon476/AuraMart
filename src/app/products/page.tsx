@@ -22,9 +22,15 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search")?.toLowerCase() || "";
+
+  // 🔹 Get search query on client side
+  useEffect(() => {
+    const query = searchParams.get("search")?.toLowerCase() || "";
+    setSearchQuery(query);
+  }, [searchParams]);
 
   // 🔹 Fetch products
   useEffect(() => {
@@ -44,7 +50,7 @@ export default function ProductsPage() {
     return () => unsubscribe();
   }, []);
 
-  // 🔹 Filter products by category + search
+  // 🔹 Filter products
   const filteredProducts = products.filter((p: Product) => {
     const matchesCategory =
       selectedCategory === "all" ||
