@@ -6,7 +6,7 @@ import ProductGrid from "@/Components/products/productgrid";
 import { Product } from "@/types/product";
 import { db } from "@/lib/firebase";
 import { collection, onSnapshot, QueryDocumentSnapshot } from "firebase/firestore";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const categories = [
   { name: "All Products", slug: "all" },
@@ -24,7 +24,9 @@ function ProductsPageContent() {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const searchParams = useSearchParams();
+  const router = useRouter();
 
+  // 🔹 Fetch products and set searchQuery from URL
   useEffect(() => {
     const query = searchParams.get("search")?.toLowerCase() || "";
     setSearchQuery(query);
@@ -44,6 +46,7 @@ function ProductsPageContent() {
     return () => unsubscribe();
   }, [searchParams]);
 
+  // 🔹 Filtered products based on category + search query
   const filteredProducts = products.filter((p: Product) => {
     const matchesCategory =
       selectedCategory === "all" ||
@@ -55,6 +58,17 @@ function ProductsPageContent() {
 
     return matchesCategory && matchesSearch;
   });
+
+  // 🔹 Handle category click
+  const handleCategoryClick = (slug: string) => {
+    setSelectedCategory(slug);
+
+    // If "All Products", clear search query from URL
+    if (slug === "all" && searchQuery) {
+      router.push("/products");
+      setSearchQuery("");
+    }
+  };
 
   return (
     <div className="container mx-auto px-6 py-10">
@@ -72,7 +86,7 @@ function ProductsPageContent() {
                 ? "bg-gradient-to-r from-orange-700 to-orange-900 text-white border-orange-900 shadow-md"
                 : "bg-white text-orange-900 border-orange-300 hover:bg-orange-700 hover:text-white hover:border-orange-700"
             }`}
-            onClick={() => setSelectedCategory(cat.slug)}
+            onClick={() => handleCategoryClick(cat.slug)}
           >
             {cat.name}
           </motion.button>

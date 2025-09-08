@@ -130,7 +130,7 @@ export default function LandingPage() {
    {/* Featured Products */}
       {featuredProducts.length > 0 && (
         <section className="container mx-auto px-4 md:px-6 mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-orange-900">
             Featured Products
           </h2>
           <motion.div
@@ -211,7 +211,7 @@ export default function LandingPage() {
             </span>
           )}
         </div>
-        <span className="mt-2 font-semibold text-xs sm:text-sm md:text-base text-orange-800">
+        <span className="mt-2 font-semibold text-xs sm:text-sm md:text-base text-orange-900">
           {cat.name}
         </span>
       </motion.div>
@@ -227,7 +227,7 @@ export default function LandingPage() {
             : `${selectedCategory.replace("-", " ")} Products`}
         </h2>
         {loading ? (
-          <p className="text-center text-gray-500 mt-10">Loading products...</p>
+          <p className="text-center text-gray-500 mt-10 text-orange-900">Loading products...</p>
         ) : filteredProducts.length > 0 ? (
           <ProductGrid products={filteredProducts} />
         ) : (

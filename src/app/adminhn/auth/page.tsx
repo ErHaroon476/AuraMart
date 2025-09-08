@@ -4,6 +4,7 @@ import { auth, provider, signInWithPopup, signOut } from "@/lib/firebase";
 import { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { ShoppingCart, ShoppingBag, CreditCard, Package } from "lucide-react";
+import Image from "next/image";
 
 export default function AdminAuth() {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ export default function AdminAuth() {
     }
   };
 
-  // Floating animation variants ✅ fixed typing
+  // Floating animation variants
   const floating: Variants = {
     animate: {
       y: [0, -20, 0],
@@ -44,39 +45,39 @@ export default function AdminAuth() {
       transition: {
         duration: 6,
         repeat: Infinity,
-        repeatType: "mirror" as const, // 👈 type-safe
+        repeatType: "mirror" as const,
       },
     },
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-blue-100 via-green-50 to-white text-gray-800">
-      {/* Floating Lucide icons */}
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-950 text-gray-100">
+      {/* Floating icons */}
       <motion.div
         variants={floating}
         animate="animate"
-        className="absolute top-20 left-10 text-blue-400 opacity-50"
+        className="absolute top-20 left-10 text-blue-600 opacity-30"
       >
         <ShoppingCart size={80} />
       </motion.div>
       <motion.div
         variants={floating}
         animate="animate"
-        className="absolute bottom-32 right-12 text-green-400 opacity-50"
+        className="absolute bottom-32 right-12 text-green-500 opacity-30"
       >
         <ShoppingBag size={70} />
       </motion.div>
       <motion.div
         variants={floating}
         animate="animate"
-        className="absolute top-1/3 left-1/3 text-purple-400 opacity-40"
+        className="absolute top-1/3 left-1/3 text-purple-500 opacity-25"
       >
         <CreditCard size={65} />
       </motion.div>
       <motion.div
         variants={floating}
         animate="animate"
-        className="absolute bottom-20 left-1/4 text-pink-400 opacity-40"
+        className="absolute bottom-20 left-1/4 text-pink-500 opacity-25"
       >
         <Package size={75} />
       </motion.div>
@@ -86,7 +87,7 @@ export default function AdminAuth() {
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 90, damping: 15 }}
-        className="relative z-10 bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-3xl p-10 w-full max-w-md text-center"
+        className="relative z-10 bg-gray-900/90 backdrop-blur-md border border-gray-800 shadow-2xl rounded-3xl p-10 w-full max-w-md text-center"
       >
         {/* Logo */}
         <motion.div
@@ -95,29 +96,33 @@ export default function AdminAuth() {
           transition={{ type: "spring", stiffness: 120, damping: 12 }}
           className="flex justify-center mb-6"
         >
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/891/891462.png"
-            alt="Admin Logo"
-            className="w-16 h-16 drop-shadow-md"
+          <Image
+            src="/logo.jpg"
+            alt="AA Mart Logo"
+            width={64}
+            height={64}
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-md"
           />
         </motion.div>
 
-        <h1 className="text-3xl font-bold text-gray-800">Admin Portal</h1>
-        <p className="text-gray-500 mt-2 mb-8">
+        <h1 className="text-3xl font-bold text-white">AA Mart Admin Portal</h1>
+        <p className="text-gray-400 mt-2 mb-8">
           Sign in with your{" "}
-          <span className="font-semibold text-blue-500">Google Account</span>{" "}
+          <span className="font-semibold text-blue-400">Google Account</span>{" "}
           to access the dashboard.
         </p>
 
         <button
           onClick={handleLogin}
           disabled={loading}
-          className="flex items-center justify-center gap-3 w-full py-3 bg-gradient-to-r from-blue-500 to-green-400 hover:opacity-90 text-white font-semibold rounded-xl shadow-md transition disabled:opacity-50"
+          className="flex items-center justify-center gap-3 w-full py-3 bg-gradient-to-r from-blue-600 to-green-500 hover:opacity-90 text-white font-semibold rounded-xl shadow-md transition disabled:opacity-50"
         >
-          <img
+          <Image
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="Google"
-            className="w-5 h-5 bg-white rounded-full"
+            width={20}
+            height={20}
+            className="bg-white rounded-full"
           />
           {loading ? "Signing in..." : "Sign in with Google"}
         </button>

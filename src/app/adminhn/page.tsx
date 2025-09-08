@@ -1,23 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import AdminNavbar from "@/Components/admin/AdminNavbar";
 import PendingOrders from "@/Components/admin/orders/PendingOrders";
 import ConfirmedOrders from "@/Components/admin/orders/ConfirmedOrders";
 import DeliveredOrders from "@/Components/admin/orders/DeliveredOrders";
-import { auth, provider, signInWithPopup } from "@/lib/firebase";
+import { auth, provider, signInWithPopup, db } from "@/lib/firebase";
 import { collection, getDocs, doc, writeBatch } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
 export default function AdminOrdersPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"pending" | "confirmed" | "delivered">("pending");
   const [deleting, setDeleting] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
+  // 🔹 Check admin auth on mount
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user || user.email !== "haroonnasim033@gmail.com") {
+        router.replace("/adminhn/auth");
+      } else {
+        setLoadingAuth(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  // 🔹 Delete all orders with re-auth
   const handleDeleteAllOrders = async () => {
     if (!confirm("⚠️ This will permanently delete ALL orders. Continue?")) return;
 
     try {
-      // Step 1: Re-authenticate admin with Google
+      // Re-authenticate admin
       const result = await signInWithPopup(auth, provider);
       const loggedInUser = result.user;
 
@@ -28,7 +44,7 @@ export default function AdminOrdersPage() {
 
       setDeleting(true);
 
-      // Step 2: Delete all orders from Firestore
+      // Delete all orders
       const snap = await getDocs(collection(db, "orders"));
       const batch = writeBatch(db);
       snap.docs.forEach((docSnap) => {
@@ -47,27 +63,37 @@ export default function AdminOrdersPage() {
     }
   };
 
+  if (loadingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-gray-100">
+        <p>Loading admin dashboard...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <AdminNavbar />
-      <div className="container mx-auto px-6 py-8">
-        {/* Tabs */}
-        <div className="flex space-x-4 mb-8">
-          {["pending", "confirmed", "delivered"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab as any)}
-              className={`px-4 py-2 rounded-lg shadow-md transition ${
-                activeTab === tab
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-800 hover:bg-gray-700"
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
 
-          {/* Delete All Orders button */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Tabs + Delete Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 mb-6">
+          <div className="flex flex-wrap gap-2 sm:gap-4">
+            {["pending", "confirmed", "delivered"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab as any)}
+                className={`px-4 py-2 rounded-lg shadow-md transition font-semibold ${
+                  activeTab === tab
+                    ? "bg-indigo-600 text-white"
+                    : "bg-gray-800 hover:bg-gray-700 text-gray-200"
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={handleDeleteAllOrders}
             disabled={deleting}
@@ -78,9 +104,11 @@ export default function AdminOrdersPage() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === "pending" && <PendingOrders />}
-        {activeTab === "confirmed" && <ConfirmedOrders />}
-        {activeTab === "delivered" && <DeliveredOrders />}
+        <div className="bg-gray-900 rounded-xl shadow-lg p-4 sm:p-6">
+          {activeTab === "pending" && <PendingOrders />}
+          {activeTab === "confirmed" && <ConfirmedOrders />}
+          {activeTab === "delivered" && <DeliveredOrders />}
+        </div>
       </div>
     </div>
   );

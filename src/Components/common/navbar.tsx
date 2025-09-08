@@ -63,9 +63,17 @@ export default function Navbar() {
     }
   };
 
-  // 🔹 Handle suggestion click → filter instead of direct product
+  // 🔹 Handle suggestion click
   const handleSuggestionClick = (title: string) => {
     router.push(`/products?search=${encodeURIComponent(title)}`);
+    setQuery("");
+    setSuggestions([]);
+  };
+
+  // 🔹 Handle "All Products" click → show all products
+  const handleAllProductsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push("/products");
     setQuery("");
     setSuggestions([]);
   };
@@ -83,32 +91,27 @@ export default function Navbar() {
             className="w-8 h-8 sm:w-12 sm:h-12 rounded-full shadow-md"
           />
           <span className="text-lg sm:text-xl font-bold tracking-wide text-white select-none">
-            AA<span className="text-orange-400">Mart</span>
+           <span className="text-orange-400"> AA</span>Mart
           </span>
         </div>
 
         {/* Search Bar */}
         <div className="relative w-36 sm:w-52 md:w-64 lg:w-80">
-       
-<form
-  onSubmit={handleSearch}
-  className="relative w-full"
->
-  <input
-    type="text"
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    placeholder="Search products..."
-    className="w-full bg-white rounded-full shadow-md pl-3 pr-9 py-1 text-xs sm:text-sm outline-none text-gray-700"
-  />
-  <button
-    type="submit"
-    className="absolute right-3 top-1/2 -translate-y-1/2"
-  >
-    <Search className="text-orange-600 w-4 h-4 sm:w-5 sm:h-5" />
-  </button>
-</form>
-
+          <form onSubmit={handleSearch} className="relative w-full">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products..."
+              className="w-full bg-white rounded-full shadow-md pl-3 pr-9 py-1 text-xs sm:text-sm outline-none text-gray-700"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+            >
+              <Search className="text-orange-600 w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          </form>
 
           {/* Suggestions Dropdown */}
           {suggestions.length > 0 && (
@@ -144,23 +147,32 @@ export default function Navbar() {
 
         {/* Links + Cart */}
         <div className="flex items-center space-x-3 sm:space-x-5 md:space-x-8 mt-2 sm:mt-0">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative text-sm sm:text-base font-medium transition-all duration-300 ${
-                pathname === link.href
-                  ? "text-orange-300"
-                  : "text-orange-100 hover:text-orange-300"
-              } group`}
-            >
-              {link.label}
-              <span
-                className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-300 to-orange-500 rounded-full transition-all duration-500 ease-out
-                ${pathname === link.href ? "w-full" : "w-0 group-hover:w-full"}`}
-              ></span>
-            </Link>
-          ))}
+          {links.map((link) => {
+            // If "Products", handle special "All Products" click
+            const isProducts = link.href === "/products";
+            return (
+              <Link
+                key={link.href}
+                href={isProducts ? "#" : link.href}
+                onClick={isProducts ? handleAllProductsClick : undefined}
+                className={`relative text-sm sm:text-base font-medium transition-all duration-300 ${
+                  pathname === link.href && (!isProducts || query === "")
+                    ? "text-orange-300"
+                    : "text-orange-100 hover:text-orange-300"
+                } group`}
+              >
+                {link.label}
+                <span
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-300 to-orange-500 rounded-full transition-all duration-500 ease-out
+                  ${
+                    pathname === link.href && (!isProducts || query === "")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </Link>
+            );
+          })}
 
           {/* Cart */}
           <Link
