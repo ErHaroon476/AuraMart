@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { auth, provider, signInWithPopup, signOut } from "@/lib/firebase";
+import { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { ShoppingCart, ShoppingBag, CreditCard, Package } from "lucide-react";
 import Image from "next/image";
@@ -10,8 +10,8 @@ export default function AdminAuth() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user?.email === "haroonnasim033@gmail.com") {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser?.email === "haroonnasim033@gmail.com") {
         window.location.href = "/adminhn";
       }
     });
@@ -27,11 +27,9 @@ export default function AdminAuth() {
       if (loggedInUser.email !== "haroonnasim033@gmail.com") {
         alert("❌ Access denied. Only the admin can log in.");
         await signOut(auth);
-        setLoading(false);
-        return;
+      } else {
+        window.location.href = "/adminhn";
       }
-
-      window.location.href = "/adminhn";
     } catch (err: any) {
       console.error("Sign-in error:", err.code, err.message);
       alert("Sign-in failed: " + err.message);
