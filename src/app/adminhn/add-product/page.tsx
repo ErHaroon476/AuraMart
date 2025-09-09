@@ -29,7 +29,7 @@ const categories = [
   { name: "Facial Care", slug: "facial-care", img: "/facialcare.png" },
   { name: "Hair Care", slug: "hair-care", img: "/haircare.png" },
   { name: "Scents", slug: "perfumes", img: "/perfume.png" },
-  { name: "Parlour Items", slug: "parlour-items", img: "/parlour.png" },
+  { name: "Baby Care", slug: "baby-care", img: "/babycare.jpeg" },
 ];
 
 export default function AddProductPage() {
