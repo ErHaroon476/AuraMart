@@ -14,7 +14,7 @@ const categories = [
   { name: "Skin Care", slug: "skincare" },
   { name: "Hair Care", slug: "hair-care" },
   { name: "Perfumes & Body Sprays", slug: "perfumes" },
-  { name: "Parlour Items", slug: "parlour-items" },
+  { name: "Baby Care", slug: "baby-care" },
 ];
 
 function ProductsPageContent() {
