@@ -8,7 +8,7 @@ import {
   FileText,
   Boxes,
   ListChecks,
-  Upload,
+  Upload, 
   Star,
   Check,
   ArrowLeft,

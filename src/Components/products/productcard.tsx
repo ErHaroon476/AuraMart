@@ -39,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Title */}
-        <h3 className="text-sm sm:text-base font-semibold mt-2 sm:mt-3 group-hover:text-orange-600 transition line-clamp-2">
+        <h3 className="text-sm sm:text-base font-semibold mt-2 sm:mt-3 group-hover:text-stone-700 transition line-clamp-2">
           {product.title}
         </h3>
 
@@ -68,7 +68,7 @@ export default function ProductCard({ product }: { product: Product }) {
           e.stopPropagation();
           addToCart(product);
         }}
-        className="mt-3 w-full bg-orange-600 hover:bg-orange-500 text-white text-xs sm:text-sm font-medium px-3 py-2 rounded-lg shadow-md transition"
+        className="mt-3 w-full bg-gradient-to-r from-orange-700 to-orange-900 text-white font-semibold px-2 py-1 rounded-full shadow-lg hover:from-orange-600 hover:to-orange-800 transition-all duration-300"
       >
         🛒 Add to Cart
       </button>

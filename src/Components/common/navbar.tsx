@@ -79,8 +79,12 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-orange-900 shadow-xl rounded-b-2xl sticky top-0 z-50">
-      <div className="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 sm:py-3 relative">
+  <nav
+  className="shadow-xl rounded-b-2xl sticky top-0 z-50"
+  style={{ backgroundColor: "saddlebrown" }}
+>
+  
+   <div className="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 sm:py-3 relative">
         {/* Logo + Brand */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           <Image
