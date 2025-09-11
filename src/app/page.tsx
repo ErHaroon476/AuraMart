@@ -81,8 +81,8 @@ export default function LandingPage() {
       backgroundImage: `url(${banners[currentBanner]})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
-      filter: "blur(50px)", // softer blur
-      opacity: 0.8,         // lighter so it blends
+      filter: "blur(70px)", // softer blur
+      opacity: 0.4,         // lighter so it blends
       transform: "scale(1.1)", // spread just outside banner
     }}
     initial={{ opacity: 0 }}
