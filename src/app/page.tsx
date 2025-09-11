@@ -11,7 +11,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { ShieldCheck, LucideTimer, Truck, ThumbsUp } from "lucide-react";
 
 
-const banners = ["/B1.png", "/B2.png"];
+const banners = ["/B2.png"];
 
 const categories = [
   { name: "Skincare", slug: "skincare", img: "/skincare.png" },
@@ -81,12 +81,12 @@ export default function LandingPage() {
       backgroundImage: `url(${banners[currentBanner]})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
-      filter: "blur(80px)", // softer blur
+      filter: "blur(50px)", // softer blur
       opacity: 0.8,         // lighter so it blends
-      transform: "scale(1.2)", // spread just outside banner
+      transform: "scale(1.1)", // spread just outside banner
     }}
     initial={{ opacity: 0 }}
-    animate={{ opacity: 0.8 }}
+    animate={{ opacity: 0.4 }}
     transition={{ duration: 2.0 }}
   />
 
@@ -98,8 +98,8 @@ export default function LandingPage() {
         src={banners[currentBanner]}
         alt={`Banner ${currentBanner + 1}`}
         className="w-full max-h-[500px] rounded-3xl object-contain lg:object-cover"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 0.4, x: 0 }}
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 0.8 }}
         onClick={() => router.push("/products")}
