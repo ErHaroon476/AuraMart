@@ -11,7 +11,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { ShieldCheck, LucideTimer, Truck, ThumbsUp } from "lucide-react";
 
 
-const banners = ["/B2.png"];
+const banners = ["/B1.jpg","/B2.png","/B3.jpeg","/B4.webp"];
 
 const categories = [
   { name: "Skincare", slug: "skincare", img: "/skincare.png" },
