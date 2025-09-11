@@ -98,8 +98,8 @@ export default function LandingPage() {
         src={banners[currentBanner]}
         alt={`Banner ${currentBanner + 1}`}
         className="w-full max-h-[500px] rounded-3xl object-contain lg:object-cover"
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 0.4, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 0.8 }}
         onClick={() => router.push("/products")}
