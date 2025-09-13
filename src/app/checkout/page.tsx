@@ -66,7 +66,7 @@ export default function CheckoutPage() {
     (sum, item) => sum + item.discountedPrice * item.quantity,
     0
   );
-  const delivery = total >= 2000 ? 0 : 199;
+  const delivery = total >= 2500 ? 0 : 199;
   const finalTotal = total + delivery;
 
   const handleInputChange = (
@@ -203,6 +203,10 @@ export default function CheckoutPage() {
       {/* Form */}
       <motion.div initial={{ x: -30 }} animate={{ x: 0 }} className="bg-white shadow-lg p-6 rounded-xl space-y-4">
         <h2 className="text-2xl font-bold mb-6">Shipping Details</h2>
+   <p className="text-sm text-red-700 mt-2 text-center">
+  ⚠️ Only orders from Punjab, Pakistan will be applicable.  
+  Confirmation messages will only be sent for Punjab orders.
+</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div whileFocus={{ scale: 1.02 }}>
@@ -309,47 +313,65 @@ export default function CheckoutPage() {
         >
           Place Order (Cash on Delivery)
         </button>
-        <p className="text-sm text-red-600 mt-2 text-center">
-  ⚠️ Only orders from Punjab, Pakistan will be applicable.  
-  Confirmation messages will only be sent for Punjab orders.
-</p>
+     
       </motion.div>
 
-      {/* Order Summary */}
-      <motion.div initial={{ x: 30 }} animate={{ x: 0 }} className="bg-white shadow-lg p-6 rounded-xl flex flex-col">
-        <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
-        <div className="flex-1 overflow-y-auto space-y-4 max-h-[60vh]">
-          {items.map((item) => (
-            <div key={item.id} className="flex justify-between items-center border-b pb-3">
-              <div className="flex items-center gap-3">
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-16 h-16 object-cover rounded-md"
-                />
-                <div>
-                  <p className="font-semibold">{item.title}</p>
-                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                </div>
-              </div>
-              <p className="font-semibold">Rs. {(item.discountedPrice * item.quantity).toFixed(2)}</p>
-            </div>
-          ))}
+     {/* Order Summary */}
+<motion.div
+  initial={{ x: 30 }}
+  animate={{ x: 0 }}
+  className="bg-white shadow-lg p-6 rounded-xl flex flex-col"
+>
+  <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
+  <div className="flex-1 overflow-y-auto space-y-4 max-h-[60vh]">
+    {items.map((item) => (
+      <div
+        key={item.id}
+        className="flex justify-between items-center border-b pb-3"
+      >
+        <div className="flex items-center gap-3">
+          <img
+            src={item.imageUrl}
+            alt={item.title}
+            className="w-16 h-16 object-cover rounded-md"
+          />
+          <div>
+            <p className="font-semibold">{item.title}</p>
+            <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+          </div>
         </div>
+        <p className="font-semibold">
+          Rs. {(item.discountedPrice * item.quantity).toFixed(2)}
+        </p>
+      </div>
+    ))}
+  </div>
 
-        <div className="mt-6 flex justify-between text-xl font-bold">
-          <span>Subtotal:</span>
-          <span>Rs. {total.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between text-lg mt-2">
-          <span>Delivery:</span>
-          <span>Rs. {delivery.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between text-xl font-bold mt-2">
-          <span>Total:</span>
-          <span>Rs. {finalTotal.toFixed(2)}</span>
-        </div>
-      </motion.div>
+  <div className="mt-6 flex justify-between text-xl font-bold">
+    <span>Subtotal:</span>
+    <span>Rs. {total.toFixed(2)}</span>
+  </div>
+  <div className="flex justify-between text-lg mt-2">
+    <span>Delivery:</span>
+    <span>Rs. {delivery.toFixed(2)}</span>
+  </div>
+
+  {/* Hint for free delivery */}
+{total < 2500 ? (
+  <p className="text-lg text-orange-800 mt-1">
+    Free delivery on orders above Rs. 2500
+  </p>
+) : (
+  <p className="text-lg text-green-800 font-semibold mt-1">
+    You got free delivery 🎉
+  </p>
+)}
+  <div className="flex justify-between text-xl font-bold mt-2">
+    <span>Total:</span>
+    <span>Rs. {finalTotal.toFixed(2)}</span>
+  </div>
+</motion.div>
+
     </motion.div>
   );
 }

@@ -116,38 +116,52 @@ export default function Navbar() {
               <Search className="text-orange-600 w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </form>
+{/* Suggestions Dropdown */}
+{suggestions.length > 0 && (
+  <div
+    className="
+      absolute left-0 right-0 mt-1 bg-white rounded-lg shadow-lg 
+      max-h-60 overflow-y-auto z-50
+    "
+  >
+    {suggestions.map((p) => (
+      <div
+        key={p.id}
+        onClick={() => handleSuggestionClick(p.title)}
+        className="
+          px-3 py-2 text-xs sm:text-sm text-gray-800 
+          hover:bg-orange-100 cursor-pointer 
+          flex justify-between items-start gap-2
+        "
+      >
+        {/* Title side */}
+        <span className="whitespace-normal break-words flex-1 leading-snug">
+          {p.title}
+        </span>
 
-          {/* Suggestions Dropdown */}
-          {suggestions.length > 0 && (
-            <div className="absolute left-0 right-0 mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
-              {suggestions.map((p) => (
-                <div
-                  key={p.id}
-                  onClick={() => handleSuggestionClick(p.title)}
-                  className="px-3 py-2 text-sm text-gray-800 hover:bg-orange-100 cursor-pointer flex justify-between items-center"
-                >
-                  <span className="truncate">{p.title}</span>
-                  <div className="text-right">
-                    {p.discountedPrice < p.actualPrice ? (
-                      <>
-                        <span className="text-orange-600 font-medium block">
-                          Rs {p.discountedPrice}
-                        </span>
-                        <span className="text-gray-400 line-through text-xs">
-                          Rs {p.actualPrice}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-orange-600 font-medium">
-                        Rs {p.actualPrice}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Price side */}
+        <div className="text-right text-xs sm:text-sm shrink-0">
+          {p.discountedPrice < p.actualPrice ? (
+            <>
+              <span className="text-orange-600 font-medium block">
+                Rs {p.discountedPrice}
+              </span>
+              <span className="text-gray-400 line-through text-[10px] sm:text-xs">
+                Rs {p.actualPrice}
+              </span>
+            </>
+          ) : (
+            <span className="text-orange-600 font-medium">
+              Rs {p.actualPrice}
+            </span>
           )}
         </div>
+      </div>
+    ))}
+  </div>
+)}
+
+</div>
 
         {/* Links + Cart */}
         <div className="flex items-center space-x-3 sm:space-x-5 md:space-x-8 mt-2 sm:mt-0">
