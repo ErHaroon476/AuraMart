@@ -1,10 +1,10 @@
 export default function Footer() {
   return (
-  <footer
-  className="text-stone-100 mt-12 rounded-t-2xl shadow-lg"
-  style={{ backgroundColor: "saddlebrown" }}
->
- <div className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+    <footer
+      className="text-stone-100 mt-12 rounded-t-2xl shadow-lg"
+      style={{ backgroundColor: "saddlebrown" }}
+    >
+      <div className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Brand & Trust */}
         <div className="space-y-3">
           <h2 className="text-xl font-bold text-white">
@@ -14,25 +14,38 @@ export default function Footer() {
             Your trusted source for premium cosmetics and skincare.
           </p>
           <p className="text-xs">
-            100% Original • Dermatologist Approved • Customer Satisfaction Guaranteed
+            100% Original • Dermatologist Approved • Customer Satisfaction
+            Guaranteed
           </p>
         </div>
 
         {/* Contact Section */}
         <div className="space-y-3">
           <h3 className="text-lg font-semibold text-white">Get in Touch</h3>
-          <p className="text-sm">Have questions or need help? We’re just an email away.</p>
+          <p className="text-sm">
+            Have questions or need help? We’re just an email away.
+          </p>
           <a
             href="mailto:haroonnasim033@gmail.com"
             className="inline-block bg-orange-700 hover:bg-orange-500 text-white text-sm font-medium px-5 py-2 rounded-full shadow-md transition-colors duration-200"
           >
             📩 Contact Us
           </a>
+
+          {/* Shop Address */}
+          <div className="mt-4 text-sm text-orange-200 space-y-1">
+            <p className="font-semibold text-white">🏬 AA Traders</p>
+            <p>Gol Chowk, D Block, Street 3</p>
+            <p>Main Bazaar, Okara</p>
+            <p>📞 044-2527657</p>
+          </div>
         </div>
 
         {/* Rights */}
         <div className="flex flex-col items-center md:items-end justify-center space-y-2">
-          <p className="text-sm text-orange-200">Trusted by thousands of beauty lovers</p>
+          <p className="text-sm text-orange-200">
+            Trusted by thousands of beauty lovers
+          </p>
           <p className="text-xs text-orange-300">
             © {new Date().getFullYear()} AA Mart. All rights reserved.
           </p>
