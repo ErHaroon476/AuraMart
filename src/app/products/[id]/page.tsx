@@ -43,8 +43,8 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-6 py-20 text-center">
-        <p className="text-gray-500 text-lg animate-pulse">
+      <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+        <p className="text-lg text-slate-500 animate-pulse">
           Loading product details...
         </p>
       </div>
@@ -53,13 +53,15 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+      <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+        <h1 className="mb-4 text-2xl font-semibold text-slate-900">
+          Product not found
+        </h1>
         <button
-          className="bg-gradient-to-r from-orange-600 to-orange-700 text-white px-6 py-3 rounded-full hover:from-orange-700 hover:to-orange-800 transition shadow-md flex items-center gap-2 mx-auto"
+          className="mx-auto flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white shadow-md transition hover:bg-emerald-500"
           onClick={() => router.push("/products")}
         >
-          <ArrowLeft className="w-4 h-4" /> Back to Products
+          <ArrowLeft className="h-4 w-4" /> Back to products
         </button>
       </div>
     );
@@ -76,58 +78,58 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       {/* Back Button */}
       <button
-        className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-orange-700 hover:text-orange-900 transition"
+        className="mb-6 inline-flex items-center gap-2 text-xs font-medium text-slate-600 transition hover:text-slate-900"
         onClick={() => router.push("/products")}
       >
-        <ArrowLeft className="w-4 h-4" /> Back to Products
+        <ArrowLeft className="h-4 w-4" /> Back to products
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2">
         {/* Product Image */}
-        <div className="w-full rounded-3xl overflow-hidden shadow-xl bg-gray-50">
+        <div className="w-full overflow-hidden rounded-3xl bg-slate-50 shadow-xl">
           <img
             src={product.imageUrl}
             alt={product.title}
-            className="w-full h-full object-cover rounded-3xl transform transition-transform duration-500 hover:scale-105"
+            className="h-full w-full rounded-3xl object-cover transition-transform duration-500 hover:scale-105"
           />
         </div>
 
         {/* Product Details */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           {/* Title */}
-          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-2xl font-semibold leading-tight text-slate-900 sm:text-3xl">
             {product.title}
           </h1>
 
           {/* Category */}
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-slate-500">
             Category:{" "}
-            <span className="font-medium text-orange-600 capitalize">
+            <span className="font-medium capitalize text-emerald-600">
               {product.category}
             </span>
           </p>
 
           {/* Featured Tag */}
           {product.featured && (
-            <span className="inline-block bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full w-fit shadow-sm">
-              ★ Featured Product
+            <span className="inline-block w-fit rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700 shadow-sm">
+              ★ Featured product
             </span>
           )}
 
           {/* Price */}
           <div className="flex items-center gap-4">
-            <span className="text-3xl font-bold text-orange-700">
+            <span className="text-3xl font-semibold text-emerald-600">
               Rs. {product.discountedPrice}
             </span>
             {product.discountPercent > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-gray-400 line-through text-lg">
+                <span className="text-lg text-slate-400 line-through">
                   Rs. {product.actualPrice}
                 </span>
-                <span className="bg-red-100 text-red-600 text-sm font-semibold px-2 py-1 rounded-full">
+                <span className="rounded-full bg-red-100 px-2 py-1 text-sm font-semibold text-red-600">
                   -{product.discountPercent}%
                 </span>
               </div>
@@ -136,7 +138,7 @@ export default function ProductDetailPage() {
 
           {/* Description */}
           {product.description && (
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-sm leading-relaxed text-slate-700">
               {product.description}
             </p>
           )}
@@ -144,10 +146,10 @@ export default function ProductDetailPage() {
           {/* Specs */}
           {product.specs?.length > 0 && (
             <div>
-              <h3 className="font-semibold text-lg mb-2 text-orange-700">
+              <h3 className="mb-2 text-sm font-semibold text-slate-900">
                 Specifications
               </h3>
-              <ul className="list-disc ml-5 text-gray-700 space-y-1">
+              <ul className="ml-5 list-disc space-y-1 text-sm text-slate-700">
                 {product.specs.map((spec, idx) => (
                   <li key={idx}>{spec}</li>
                 ))}
@@ -158,10 +160,10 @@ export default function ProductDetailPage() {
           {/* Benefits */}
           {product.benefits?.length > 0 && (
             <div>
-              <h3 className="font-semibold text-lg mb-2 text-orange-700">
+              <h3 className="mb-2 text-sm font-semibold text-slate-900">
                 Benefits
               </h3>
-              <ul className="list-disc ml-5 text-gray-700 space-y-1">
+              <ul className="ml-5 list-disc space-y-1 text-sm text-slate-700">
                 {product.benefits.map((benefit, idx) => (
                   <li key={idx}>{benefit}</li>
                 ))}
@@ -170,18 +172,18 @@ export default function ProductDetailPage() {
           )}
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-4 mt-6">
+          <div className="mt-4 flex flex-wrap gap-4">
             <button
               onClick={handleAddToCart}
-              className="flex items-center justify-center gap-2 flex-1 md:flex-none bg-gradient-to-r from-orange-600 to-orange-700 text-white px-6 py-3 rounded-full font-medium hover:from-orange-700 hover:to-orange-800 transition shadow-md"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white shadow-md transition hover:bg-emerald-500 md:flex-none"
             >
-              <ShoppingCart className="w-5 h-5" /> Add to Cart
+              <ShoppingCart className="h-5 w-5" /> Add to cart
             </button>
             <button
               onClick={handleCheckout}
-              className="flex items-center justify-center gap-2 flex-1 md:flex-none bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-full font-medium hover:from-orange-600 hover:to-orange-700 transition shadow-md"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white shadow-md transition hover:bg-slate-800 md:flex-none"
             >
-              <Zap className="w-5 h-5" /> Buy Now
+              <Zap className="h-5 w-5" /> Buy now
             </button>
           </div>
         </div>

@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Edit, Trash2, ArrowLeft, Star, DollarSign, Tag, Upload, Check } from "lucide-react";
-import { auth, signOut } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
 import { collection, onSnapshot, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { User } from "firebase/auth";
+import AdminNavbar from "@/Components/admin/AdminNavbar";
 
 interface Product {
   id: string;
@@ -42,7 +43,7 @@ const categories = [
   { name: "Facial Care", slug: "facial-care" },
   { name: "Hair Care", slug: "hair-care" },
   { name: "Scents", slug: "perfumes" },
-  { name: "Parlour Items", slug: "parlour-items" },
+  { name: "Baby Care", slug: "baby-care" },
 ];
 
 export default function ManageProductsPage() {
@@ -63,6 +64,7 @@ export default function ManageProductsPage() {
     imageUrl: "",
     imageFile: null,
   });
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const router = useRouter();
 
@@ -70,7 +72,7 @@ export default function ManageProductsPage() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) setUser(currentUser);
-      else router.push("/login");
+      else router.push("/adminhn/auth");
     });
     return () => unsubscribe();
   }, [router]);
@@ -159,35 +161,38 @@ export default function ManageProductsPage() {
     setEditingProduct(null);
   };
 
-  if (!user) return <div className="p-10 text-center">Checking auth...</div>;
+  if (!user)
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-100">
+        <p className="text-sm text-slate-300">Checking admin authentication...</p>
+      </div>
+    );
 
   return (
-    <div className="p-8 min-h-screen bg-gray-950 text-white">
-      <button
-        onClick={() => router.push("/adminhn")}
-        className="mb-6 flex items-center gap-2 text-gray-300 hover:text-white"
-      >
-        <ArrowLeft className="w-5 h-5" /> Back
-      </button>
-
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">📦 Manage Products</h1>
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <AdminNavbar />
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <button
-          onClick={() => signOut(auth)}
-          className="bg-red-600 px-3 py-2 rounded-lg text-sm hover:bg-red-700"
+          onClick={() => router.push("/adminhn")}
+          className="mb-6 flex items-center gap-2 text-sm text-slate-300 hover:text-slate-100"
         >
-          Logout
+          <ArrowLeft className="h-4 w-4" /> Back to orders
         </button>
-      </div>
 
-      {editingProduct ? (
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+            📦 Manage products
+          </h1>
+        </div>
+
+        {editingProduct ? (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="bg-gray-900 p-6 rounded-2xl max-w-lg mx-auto space-y-4"
+          className="mx-auto max-w-lg space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6"
         >
-          <h2 className="text-xl font-bold">✏️ Edit Product</h2>
+          <h2 className="text-xl font-semibold text-slate-50">✏️ Edit product</h2>
 
           <input
             type="text"
@@ -195,14 +200,14 @@ export default function ManageProductsPage() {
             placeholder="Title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
           />
 
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
           >
             {categories.map((c) => (
               <option key={c.slug} value={c.slug}>
@@ -218,7 +223,7 @@ export default function ManageProductsPage() {
               placeholder="Actual Price"
               value={formData.actualPrice}
               onChange={handleChange}
-              className="w-1/2 px-4 py-2 rounded-lg bg-gray-800 text-white"
+              className="w-1/2 rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
             />
             <input
               type="number"
@@ -226,7 +231,7 @@ export default function ManageProductsPage() {
               placeholder="Discounted Price"
               value={formData.discountedPrice}
               onChange={handleChange}
-              className="w-1/2 px-4 py-2 rounded-lg bg-gray-800 text-white"
+              className="w-1/2 rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
             />
           </div>
 
@@ -235,7 +240,7 @@ export default function ManageProductsPage() {
             name="discountPercent"
             value={formData.discountPercent}
             readOnly
-            className="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-300"
+            className="w-full rounded-lg bg-slate-800 px-4 py-2 text-sm text-slate-300"
           />
 
           <textarea
@@ -243,7 +248,7 @@ export default function ManageProductsPage() {
             placeholder="Description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
           />
 
           <textarea
@@ -251,7 +256,7 @@ export default function ManageProductsPage() {
             placeholder="Specs (comma separated)"
             value={formData.specs.join(", ")}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
           />
 
           <textarea
@@ -259,7 +264,7 @@ export default function ManageProductsPage() {
             placeholder="Benefits (comma separated)"
             value={formData.benefits.join(", ")}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-emerald-500/60"
           />
 
           <div className="flex items-center gap-2">
@@ -268,82 +273,139 @@ export default function ManageProductsPage() {
               name="featured"
               checked={formData.featured}
               onChange={handleChange}
-              className="w-5 h-5"
+              className="h-4 w-4 rounded border border-slate-500"
             />
             <span>Featured</span>
           </div>
 
-          <input type="file" name="imageFile" onChange={handleChange} />
+          <input
+            type="file"
+            name="imageFile"
+            onChange={handleChange}
+            className="text-xs text-slate-300"
+          />
           {formData.imageFile ? (
             <img
               src={URL.createObjectURL(formData.imageFile)}
               alt="Preview"
-              className="w-32 h-32 object-cover rounded-lg"
+              className="h-32 w-32 rounded-lg object-cover"
             />
-          ) : (
-            <img src={formData.imageUrl} alt="Current" className="w-32 h-32 object-cover rounded-lg" />
+        ) : (
+            <img src={formData.imageUrl} alt="Current" className="h-32 w-32 rounded-lg object-cover" />
           )}
 
           <div className="flex gap-3">
             <button
               onClick={handleSave}
-              className="flex-1 bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
             >
               <Check className="w-5 h-5" /> Save
             </button>
             <button
               onClick={() => setEditingProduct(null)}
-              className="flex-1 bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-700"
+              className="flex-1 rounded-lg bg-slate-700 px-4 py-2 text-sm hover:bg-slate-600"
             >
               Cancel
             </button>
           </div>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+        <>
+        {/* Category filter */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedCategory("all")}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              selectedCategory === "all"
+                ? "bg-emerald-600 text-white"
+                : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+            }`}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.slug}
+              onClick={() => setSelectedCategory(cat.slug)}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+                selectedCategory === cat.slug
+                  ? "bg-emerald-600 text-white"
+                  : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+
+        {loading ? (
+          <p className="text-sm text-slate-400">Loading products...</p>
+        ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {products
+            .filter((product) =>
+              selectedCategory === "all"
+                ? true
+                : product.category === selectedCategory
+            )
+            .map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-900 p-5 rounded-2xl shadow-lg flex flex-col items-center"
+              className="flex flex-col items-center rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg"
             >
-              <img src={product.imageUrl} alt={product.title} className="w-32 h-32 object-cover rounded-lg mb-4" />
-              <h2 className="text-lg font-semibold flex items-center gap-2">
-                <Tag className="w-4 h-4 text-gray-400" /> {product.title}
+              <img
+                src={product.imageUrl}
+                alt={product.title}
+                className="mb-4 h-32 w-32 rounded-lg object-cover"
+              />
+              <h2 className="flex items-center gap-2 text-base font-semibold">
+                <Tag className="h-4 w-4 text-slate-400" /> {product.title}
               </h2>
-              <p className="text-sm text-gray-400 capitalize">Category: {product.category}</p>
-              <div className="flex items-center gap-2 mt-2">
-                <DollarSign className="w-4 h-4 text-green-400" />
-                <span className="line-through text-gray-500">Rs. {product.actualPrice}</span>
-                <span className="text-white font-bold">Rs. {product.discountedPrice}</span>
-                <span className="text-green-400 text-sm">({product.discountPercent}% off)</span>
+              <p className="mt-1 text-xs capitalize text-slate-400">
+                Category: {product.category}
+              </p>
+              <div className="mt-2 flex items-center gap-2 text-sm">
+                <DollarSign className="h-4 w-4 text-emerald-400" />
+                <span className="line-through text-slate-500">
+                  Rs. {product.actualPrice}
+                </span>
+                <span className="font-semibold text-slate-50">
+                  Rs. {product.discountedPrice}
+                </span>
+                <span className="text-xs text-emerald-400">
+                  ({product.discountPercent}% off)
+                </span>
               </div>
               {product.featured && (
-                <div className="flex items-center gap-1 mt-2 text-yellow-400">
-                  <Star className="w-4 h-4 fill-yellow-400" />
+                <div className="mt-2 flex items-center gap-1 text-yellow-400">
+                  <Star className="h-4 w-4 fill-yellow-400" />
                   <span className="text-sm">Featured</span>
                 </div>
               )}
-              <div className="flex gap-3 mt-5">
+              <div className="mt-5 flex w-full gap-3">
                 <button
                   onClick={() => handleEdit(product)}
-                  className="flex-1 flex items-center gap-1 bg-yellow-500 hover:bg-yellow-600 px-3 py-2 rounded-lg text-sm"
+                  className="flex flex-1 items-center gap-1 rounded-lg bg-amber-500 px-3 py-2 text-xs font-medium text-slate-900 hover:bg-amber-400"
                 >
-                  <Edit className="w-4 h-4" /> Edit
+                  <Edit className="h-4 w-4" /> Edit
                 </button>
                 <button
                   onClick={() => handleDelete(product.id)}
-                  className="flex-1 flex items-center gap-1 bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg text-sm"
+                  className="flex flex-1 items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-xs font-medium hover:bg-red-500"
                 >
-                  <Trash2 className="w-4 h-4" /> Delete
+                  <Trash2 className="h-4 w-4" /> Delete
                 </button>
               </div>
             </motion.div>
           ))}
         </div>
-      )}
+        )}
+        </>
+        )}
+      </div>
     </div>
   );
 }

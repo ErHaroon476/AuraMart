@@ -13,16 +13,11 @@ import {
   Check,
   ArrowLeft,
 } from "lucide-react";
-import {
-  db,
-  auth,
-  provider,
-  signInWithPopup,
-  signOut,
-} from "@/lib/firebase";
+import { db, auth, provider, signInWithPopup } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import Link from "next/link";
+import AdminNavbar from "@/Components/admin/AdminNavbar";
 
 const categories = [
   { name: "Skincare", slug: "skincare", img: "/skincare.png" },
@@ -141,15 +136,19 @@ export default function AddProductPage() {
   };
 
   if (authLoading)
-    return <p className="p-6 text-center text-gray-300">Checking authentication...</p>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-200">
+        <p className="text-sm text-slate-300">Checking authentication...</p>
+      </div>
+    );
 
   if (!user)
     return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4 bg-gray-950 text-gray-100">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-950 text-slate-100">
         <p className="text-lg font-medium">🚫 You must be signed in</p>
         <button
           onClick={() => signInWithPopup(auth, provider)}
-          className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg"
+          className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-medium text-white shadow hover:bg-emerald-500"
         >
           Sign in with Google
         </button>
@@ -157,128 +156,126 @@ export default function AddProductPage() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-10">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <Link href="/adminhn">
-            <button className="mb-6 flex items-center gap-2 text-gray-300 hover:text-white">
-              <ArrowLeft className="w-5 h-5" /> Back
-            </button>
-          </Link>
-          <h1 className="text-2xl font-bold">➕ Add New Product</h1>
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <AdminNavbar />
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/adminhn">
+              <button className="flex items-center gap-2 text-sm text-slate-300 hover:text-slate-100">
+                <ArrowLeft className="h-4 w-4" /> Back to orders
+              </button>
+            </Link>
+            <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+              ➕ Add new product
+            </h1>
+          </div>
         </div>
-        <button
-          onClick={() => signOut(auth)}
-          className="px-4 py-2 bg-red-500 hover:bg-red-400 text-white rounded-lg"
-        >
-          Sign Out
-        </button>
-      </div>
 
-      <motion.form
+        <motion.form
         onSubmit={handleSubmit}
-        className="space-y-4 max-w-lg mx-auto p-6 border rounded-2xl shadow-md bg-gray-900 border-gray-800"
+        className="mx-auto max-w-lg space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-md"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* Title */}
         <div className="flex items-center gap-2">
-          <Tag className="w-5 h-5 text-gray-400" />
+          <Tag className="h-5 w-5 text-slate-400" />
           <input
             type="text"
             placeholder="Product Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-600"
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none focus:ring-2 focus:ring-emerald-500/60"
           />
         </div>
 
         {/* Price */}
         <div className="flex gap-3">
-          <div className="flex items-center gap-2 w-1/3">
-            <DollarSign className="w-5 h-5 text-gray-400" />
+          <div className="flex w-1/3 items-center gap-2">
+            <DollarSign className="h-5 w-5 text-slate-400" />
             <input
               type="number"
               placeholder="Actual Price"
               value={actualPrice}
               onChange={(e) => setActualPrice(e.target.value)}
-              className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
             />
           </div>
-          <div className="flex items-center gap-2 w-1/3">
-            <DollarSign className="w-5 h-5 text-gray-400" />
+          <div className="flex w-1/3 items-center gap-2">
+            <DollarSign className="h-5 w-5 text-slate-400" />
             <input
               type="number"
               placeholder="Discounted Price"
               value={discountedPrice}
               onChange={(e) => setDiscountedPrice(e.target.value)}
-              className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
             />
           </div>
-          <div className="flex items-center gap-2 w-1/3">
-            <DollarSign className="w-5 h-5 text-gray-400" />
+          <div className="flex w-1/3 items-center gap-2">
+            <DollarSign className="h-5 w-5 text-slate-400" />
             <input
               type="number"
               placeholder="Discount %"
               value={discountPercent}
               readOnly
-              className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
             />
           </div>
         </div>
 
         {/* Description */}
         <div className="flex items-start gap-2">
-          <FileText className="w-5 h-5 text-gray-400 mt-2" />
+          <FileText className="mt-2 h-5 w-5 text-slate-400" />
           <textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
           />
         </div>
 
         {/* Specs */}
         <div className="flex items-start gap-2">
-          <Boxes className="w-5 h-5 text-gray-400 mt-2" />
+          <Boxes className="mt-2 h-5 w-5 text-slate-400" />
           <textarea
             placeholder="Specs (comma separated)"
             value={specs.join(", ")}
             onChange={(e) => setSpecs(e.target.value.split(",").map((s) => s.trim()))}
-            className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
           />
         </div>
 
         {/* Benefits */}
         <div className="flex items-start gap-2">
-          <ListChecks className="w-5 h-5 text-gray-400 mt-2" />
+          <ListChecks className="mt-2 h-5 w-5 text-slate-400" />
           <textarea
             placeholder="Benefits (comma separated)"
             value={benefits.join(", ")}
             onChange={(e) => setBenefits(e.target.value.split(",").map((b) => b.trim()))}
-            className="w-full border border-gray-700 bg-gray-800 text-gray-100 rounded-lg px-4 py-2"
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100"
           />
         </div>
 
         {/* Category */}
         <div>
-          <p className="font-medium mb-2">Select Category:</p>
+          <p className="mb-2 text-sm font-medium text-slate-100">Select category</p>
           <div className="grid grid-cols-3 gap-4">
             {categories.map((cat) => (
               <motion.div
                 key={cat.slug}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => setCategory(cat.slug)}
-                className={`cursor-pointer border rounded-lg p-4 flex flex-col items-center gap-2 transition ${
+                className={`flex cursor-pointer flex-col items-center gap-2 rounded-lg border p-4 text-xs transition ${
                   category === cat.slug
-                    ? "border-indigo-500 bg-gray-800"
-                    : "border-gray-700 bg-gray-900"
+                    ? "border-emerald-500 bg-slate-900"
+                    : "border-slate-700 bg-slate-950"
                 }`}
               >
-                <img src={cat.img} alt={cat.name} className="w-10 h-10" />
-                <p className="text-sm text-gray-200">{cat.name}</p>
-                {category === cat.slug && <Check className="w-4 h-4 text-green-500" />}
+                <img src={cat.img} alt={cat.name} className="h-10 w-10 rounded-full border border-slate-700" />
+                <p className="text-xs text-slate-200">{cat.name}</p>
+                {category === cat.slug && <Check className="h-4 w-4 text-emerald-400" />}
               </motion.div>
             ))}
           </div>
@@ -286,22 +283,26 @@ export default function AddProductPage() {
 
         {/* Featured */}
         <div
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex cursor-pointer items-center gap-2 text-sm"
           onClick={() => setFeatured(!featured)}
         >
-          <Star className={`w-5 h-5 ${featured ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`} />
-          <span>{featured ? "Featured Product" : "Mark as Featured"}</span>
+          <Star
+            className={`h-5 w-5 ${
+              featured ? "fill-yellow-400 text-yellow-400" : "text-slate-400"
+            }`}
+          />
+          <span>{featured ? "Featured product" : "Mark as featured"}</span>
         </div>
 
         {/* Image Upload */}
-        <div className="flex items-center gap-2">
-          <Upload className="w-5 h-5 text-gray-400" />
+        <div className="flex items-center gap-2 text-xs text-slate-300">
+          <Upload className="h-5 w-5 text-slate-400" />
           <input
             id="imageInput"
             type="file"
             accept="image/*"
             onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-            className="text-gray-300"
+            className="text-xs text-slate-300"
           />
         </div>
 
@@ -310,7 +311,7 @@ export default function AddProductPage() {
           <img
             src={URL.createObjectURL(imageFile)}
             alt="Preview"
-            className="w-32 h-32 object-cover rounded-lg border border-gray-700"
+            className="h-32 w-32 rounded-lg border border-slate-700 object-cover"
           />
         )}
 
@@ -318,12 +319,13 @@ export default function AddProductPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg shadow disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-6 py-3 text-sm font-medium text-white shadow hover:bg-emerald-500 disabled:opacity-60"
         >
-          <Check className="w-5 h-5" />
-          {loading ? "Adding..." : "Add Product"}
+          <Check className="h-5 w-5" />
+          {loading ? "Adding..." : "Add product"}
         </button>
-      </motion.form>
+        </motion.form>
+      </div>
     </div>
   );
 }

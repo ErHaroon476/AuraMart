@@ -14,25 +14,25 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-900 shadow-lg p-6 rounded-2xl space-y-5 border border-gray-800 hover:border-gray-700 transition"
+      className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-md transition hover:border-slate-700"
     >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-indigo-400">
+          <h2 className="text-xl font-semibold text-emerald-400">
             Order ID: {order.id}
           </h2>
           {order.orderNumber && (
-            <p className="text-sm text-gray-400">Order #: {order.orderNumber}</p>
+            <p className="text-sm text-slate-400">Order #: {order.orderNumber}</p>
           )}
         </div>
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
+          className={`rounded-full px-3 py-1 text-sm ${
             order.status === "pending"
-              ? "bg-yellow-700 text-white"
+              ? "bg-yellow-600/80 text-white"
               : order.status === "confirmed"
-              ? "bg-green-700 text-white"
-              : "bg-blue-700 text-white"
+              ? "bg-emerald-600/80 text-white"
+              : "bg-sky-600/80 text-white"
           }`}
         >
           {order.status?.toUpperCase() || "PENDING"}
@@ -40,7 +40,7 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
       </div>
 
       {/* Placed At */}
-      <p className="text-gray-400 text-sm">
+      <p className="text-sm text-slate-400">
         Placed At:{" "}
         {order.createdAt?.toDate
           ? order.createdAt.toDate().toLocaleString()
@@ -49,8 +49,8 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
 
       {/* Customer Info */}
       <div>
-        <h3 className="font-semibold mb-1 text-indigo-300">Customer Info</h3>
-        <div className="space-y-1 text-gray-300 text-sm">
+        <h3 className="mb-1 font-semibold text-emerald-300">Customer info</h3>
+        <div className="space-y-1 text-sm text-slate-200">
           <p>
             Name: {order.shipping.firstName} {order.shipping.lastName}
           </p>
@@ -68,27 +68,27 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
 
       {/* Order Items */}
       <div>
-        <h3 className="font-semibold mb-2 text-indigo-300">Order Items</h3>
+        <h3 className="mb-2 font-semibold text-emerald-300">Order items</h3>
         <div className="space-y-3">
           {order.items.map((item: any) => (
             <div
               key={item.id}
-              className="flex items-center justify-between border-b border-gray-700 pb-2"
+              className="flex items-center justify-between border-b border-slate-800 pb-2"
             >
               {/* Left: Image + Title */}
               <div className="flex items-center gap-3">
                 <img
                   src={item.imageUrl}
                   alt={item.title}
-                  className="w-14 h-14 object-cover rounded-md border border-gray-700"
+                  className="h-14 w-14 rounded-md border border-slate-700 object-cover"
                 />
                 <div>
-                  <p className="font-medium text-gray-200">{item.title}</p>
-                  <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
+                  <p className="font-medium text-slate-100">{item.title}</p>
+                  <p className="text-sm text-slate-400">Qty: {item.quantity}</p>
                 </div>
               </div>
               {/* Right: Price */}
-              <span className="font-semibold text-gray-100">
+              <span className="font-semibold text-slate-100">
                 Rs. {(item.discountedPrice * item.quantity).toFixed(2)}
               </span>
             </div>
@@ -97,8 +97,8 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
       </div>
 
       {/* Totals */}
-      <div className="border-t border-gray-700 pt-3 flex justify-between font-bold text-gray-100">
-        <span>Total (with delivery):</span>
+      <div className="flex justify-between border-t border-slate-800 pt-3 text-sm font-semibold text-slate-100">
+        <span>Total (with delivery)</span>
         <span>Rs. {order.finalTotal.toFixed(2)}</span>
       </div>
 
@@ -108,10 +108,10 @@ export default function OrderCard({ order, actionLabel, actionDisabled, onAction
           <button
             onClick={onAction}
             disabled={actionDisabled}
-            className={`px-6 py-2 rounded-lg shadow-md transition ${
+            className={`rounded-lg px-6 py-2 text-sm font-medium shadow-md transition ${
               actionDisabled
-                ? "bg-gray-600 text-white cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-500 text-white"
+                ? "cursor-not-allowed bg-slate-700 text-slate-200"
+                : "bg-emerald-600 text-white hover:bg-emerald-500"
             }`}
           >
             {actionLabel}

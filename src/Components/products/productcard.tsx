@@ -8,38 +8,38 @@ export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addItem);
 
   return (
-    <div className="group border rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition bg-white">
+    <div className="group rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg">
       {/* Wrap clickable content in Link */}
       <Link href={`/products/${product.id}`}>
         {/* Product Image */}
-        <div className="relative w-full h-40 sm:h-48 md:h-56 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+        <div className="relative flex h-40 w-full items-center justify-center overflow-hidden rounded-lg bg-slate-50 sm:h-48 md:h-56">
           {/* Blurred background */}
           <div
-            className="absolute inset-0 bg-gray-200"
+            className="absolute inset-0 bg-slate-100"
             style={{
               backgroundImage: `url(${product.imageUrl})`,
               backgroundSize: "cover",
-              filter: "blur(20px)",
+              filter: "blur(18px)",
             }}
-          ></div>
+          />
 
           {/* Main image */}
           <img
             src={product.imageUrl}
             alt={product.title}
-            className="relative w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+            className="relative h-full w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Discount Badge */}
           {product.discountPercent > 0 && (
-            <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+            <span className="absolute left-2 top-2 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white shadow-md">
               -{product.discountPercent}%
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-sm sm:text-base font-semibold mt-2 sm:mt-3 group-hover:text-stone-700 transition line-clamp-2">
+        <h3 className="mt-2 text-sm font-semibold sm:mt-3 sm:text-base line-clamp-2 text-slate-900 transition group-hover:text-slate-700">
           {product.title}
         </h3>
 
@@ -47,15 +47,15 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="mt-1">
           {product.discountedPrice < product.actualPrice ? (
             <div className="flex items-center gap-2">
-              <p className="text-red-600 font-bold text-sm sm:text-base">
+              <p className="text-sm font-bold text-emerald-600 sm:text-base">
                 Rs. {product.discountedPrice}
               </p>
-              <p className="text-gray-500 line-through text-xs sm:text-sm">
+              <p className="text-xs text-slate-400 line-through sm:text-sm">
                 Rs. {product.actualPrice}
               </p>
             </div>
           ) : (
-            <p className="text-gray-800 font-bold text-sm sm:text-base">
+            <p className="text-sm font-bold text-slate-900 sm:text-base">
               Rs. {product.actualPrice}
             </p>
           )}
@@ -68,7 +68,7 @@ export default function ProductCard({ product }: { product: Product }) {
           e.stopPropagation();
           addToCart(product);
         }}
-        className="mt-3 w-full bg-gradient-to-r from-orange-700 to-orange-900 text-white font-semibold px-2 py-1 rounded-full shadow-lg hover:from-orange-600 hover:to-orange-800 transition-all duration-300"
+        className="mt-3 w-full rounded-full bg-emerald-600 px-2 py-1 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:bg-emerald-500"
       >
         🛒 Add to Cart
       </button>

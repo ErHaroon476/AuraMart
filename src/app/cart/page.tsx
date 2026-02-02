@@ -85,7 +85,7 @@ export default function CartPage() {
         Your Cart
       </h1>
 
-      <div className="space-y-5">
+      <div className="space-y-4">
         {items.map((item) => (
           <motion.div
             key={item.id}

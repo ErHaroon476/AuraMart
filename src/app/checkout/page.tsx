@@ -201,12 +201,16 @@ export default function CheckoutPage() {
       className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10"
     >
       {/* Form */}
-      <motion.div initial={{ x: -30 }} animate={{ x: 0 }} className="bg-white shadow-lg p-6 rounded-xl space-y-4">
-        <h2 className="text-2xl font-bold mb-6">Shipping Details</h2>
-   <p className="text-sm text-red-700 mt-2 text-center">
-  ⚠️ Only orders from Punjab, Pakistan will be applicable.  
-  Confirmation messages will only be sent for Punjab orders.
-</p>
+      <motion.div
+        initial={{ x: -30 }}
+        animate={{ x: 0 }}
+        className="space-y-4 rounded-xl bg-white p-6 shadow-lg"
+      >
+        <h2 className="mb-2 text-2xl font-bold text-slate-900">Shipping details</h2>
+        <p className="mt-1 text-center text-xs text-red-700">
+          ⚠️ Only orders from Punjab, Pakistan will be applicable. Confirmation messages will only be sent for Punjab
+          orders.
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div whileFocus={{ scale: 1.02 }}>

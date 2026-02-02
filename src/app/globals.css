@@ -1,16 +1,44 @@
 @import "tailwindcss";
-html, body {
+
+@theme {
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /* Neutrals & surfaces */
+  --color-background: 248 250 252; /* bg-background */
+  --color-surface: 255 255 255; /* bg-surface */
+  --color-muted: 148 163 184; /* text-muted */
+  --color-border-subtle: 226 232 240; /* border-subtle */
+
+  /* Brand palette */
+  --color-primary: 22 163 74; /* emerald-600 */
+  --color-primary-soft: 220 252 231; /* emerald-100 */
+  --color-primary-foreground: 255 255 255;
+
+  /* Layout chrome */
+  --color-navbar: 15 23 42; /* slate-900 */
+  --color-footer: 15 23 42;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  /* Light  tint */
-  background-color: rgb(255, 251, 244); 
-  animation: pulse-bg 8s ease-in-out infinite alternate;
+  font-family: var(--font-sans);
+  background-color: rgb(var(--color-background));
+  color: rgb(15 23 42);
 }
 

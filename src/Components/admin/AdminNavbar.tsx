@@ -15,27 +15,27 @@ export default function AdminNavbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-gray-900 text-white shadow-md">
+    <nav className="flex items-center justify-between border-b border-slate-800 bg-slate-950/95 px-6 py-4 text-slate-100 shadow-sm">
       {/* Logo / Brand */}
       <div
-        className="font-bold text-lg cursor-pointer"
+        className="cursor-pointer text-lg font-semibold tracking-tight"
         onClick={() => router.push("/adminhn")}
       >
-        🛠️ Admin Dashboard
+        🛠️ Admin dashboard
       </div>
 
       {/* Links */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 text-sm">
         <button
           onClick={() => router.push("/adminhn/add-product")}
-          className="flex items-center gap-2 hover:text-gray-300"
+          className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-slate-200 transition hover:bg-slate-800 hover:text-white"
         >
           <PackagePlus className="w-4 h-4" /> Add Product
         </button>
 
         <button
           onClick={() => router.push("/adminhn/manage-products")}
-          className="flex items-center gap-2 hover:text-gray-300"
+          className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-slate-200 transition hover:bg-slate-800 hover:text-white"
         >
           <Boxes className="w-4 h-4" /> Manage Products
         </button>
@@ -45,9 +45,9 @@ export default function AdminNavbar() {
       {/* Logout */}
       <button
         onClick={handleLogout}
-        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg shadow"
+        className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-red-500"
       >
-        <LogOut className="w-4 h-4" /> Logout
+        <LogOut className="h-4 w-4" /> Logout
       </button>
     </nav>
   );

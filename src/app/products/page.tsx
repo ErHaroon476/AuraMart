@@ -71,20 +71,25 @@ function ProductsPageContent() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">Products</h1>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <h1 className="mb-2 text-center text-3xl font-semibold tracking-tight text-slate-900">
+        All products
+      </h1>
+      <p className="mb-8 text-center text-sm text-slate-500">
+        Browse our full collection or filter by category.
+      </p>
 
       {/* Category Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 mb-10">
+      <div className="mb-10 flex flex-wrap justify-center gap-3">
         {categories.map((cat) => (
           <motion.button
             key={cat.slug}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            className={`px-5 py-2 rounded-full font-semibold transition-all border shadow-sm ${
+            className={`rounded-full px-4 py-2 text-sm font-medium shadow-sm transition-all ${
               selectedCategory === cat.slug
-                ? "bg-gradient-to-r from-orange-700 to-orange-900 text-white border-orange-900 shadow-md"
-                : "bg-white text-orange-900 border-orange-300 hover:bg-orange-700 hover:text-white hover:border-orange-700"
+                ? "bg-emerald-600 text-white shadow-md"
+                : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-500 hover:text-emerald-600"
             }`}
             onClick={() => handleCategoryClick(cat.slug)}
           >

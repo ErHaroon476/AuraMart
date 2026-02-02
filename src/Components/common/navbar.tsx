@@ -79,12 +79,8 @@ export default function Navbar() {
   };
 
   return (
-  <nav
-  className="shadow-xl rounded-b-2xl sticky top-0 z-50"
-  style={{ backgroundColor: "saddlebrown" }}
->
-  
-   <div className="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 sm:py-3 relative">
+    <nav className="sticky top-0 z-50 border-b border-slate-800/60 bg-slate-900/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 sm:px-6 py-2 sm:py-3 relative">
         {/* Logo + Brand */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           <Image
@@ -92,10 +88,10 @@ export default function Navbar() {
             alt="AAMart Logo"
             width={36}
             height={36}
-            className="w-8 h-8 sm:w-12 sm:h-12 rounded-full shadow-md"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md border border-emerald-500/40"
           />
-          <span className="text-lg sm:text-xl font-bold tracking-wide text-white select-none">
-           <span className="text-orange-400"> AA</span>Mart
+          <span className="text-lg sm:text-xl font-semibold tracking-tight text-slate-50 select-none">
+            <span className="text-emerald-400">Aura</span>Mart
           </span>
         </div>
 
@@ -107,32 +103,25 @@ export default function Navbar() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products..."
-              className="w-full bg-white rounded-full shadow-md pl-3 pr-9 py-1 text-xs sm:text-sm outline-none text-gray-700"
+              className="w-full rounded-full border border-slate-700 bg-slate-900/60 pl-3 pr-9 py-1.5 text-xs sm:text-sm outline-none text-slate-100 placeholder:text-slate-400 shadow-inner focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/40"
             />
             <button
               type="submit"
               className="absolute right-3 top-1/2 -translate-y-1/2"
             >
-              <Search className="text-orange-600 w-4 h-4 sm:w-5 sm:h-5" />
+              <Search className="text-emerald-400 w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </form>
 {/* Suggestions Dropdown */}
 {suggestions.length > 0 && (
   <div
-    className="
-      absolute left-0 right-0 mt-1 bg-white rounded-lg shadow-lg 
-      max-h-60 overflow-y-auto z-50
-    "
+    className="absolute left-0 right-0 mt-1 rounded-lg border border-slate-800 bg-slate-900/95 shadow-xl backdrop-blur max-h-60 overflow-y-auto z-50"
   >
     {suggestions.map((p) => (
       <div
         key={p.id}
         onClick={() => handleSuggestionClick(p.title)}
-        className="
-          px-3 py-2 text-xs sm:text-sm text-gray-800 
-          hover:bg-orange-100 cursor-pointer 
-          flex justify-between items-start gap-2
-        "
+        className="px-3 py-2 text-xs sm:text-sm text-slate-100 hover:bg-slate-800/80 cursor-pointer flex justify-between items-start gap-2"
       >
         {/* Title side */}
         <span className="whitespace-normal break-words flex-1 leading-snug">
@@ -143,15 +132,15 @@ export default function Navbar() {
         <div className="text-right text-xs sm:text-sm shrink-0">
           {p.discountedPrice < p.actualPrice ? (
             <>
-              <span className="text-orange-600 font-medium block">
+              <span className="text-emerald-400 font-semibold block">
                 Rs {p.discountedPrice}
               </span>
-              <span className="text-gray-400 line-through text-[10px] sm:text-xs">
+              <span className="text-slate-500 line-through text-[10px] sm:text-xs">
                 Rs {p.actualPrice}
               </span>
             </>
           ) : (
-            <span className="text-orange-600 font-medium">
+            <span className="text-emerald-400 font-semibold">
               Rs {p.actualPrice}
             </span>
           )}
@@ -175,19 +164,18 @@ export default function Navbar() {
                 onClick={isProducts ? handleAllProductsClick : undefined}
                 className={`relative text-sm sm:text-base font-medium transition-all duration-300 ${
                   pathname === link.href && (!isProducts || query === "")
-                    ? "text-orange-300"
-                    : "text-orange-100 hover:text-orange-300"
+                    ? "text-emerald-300"
+                    : "text-slate-100 hover:text-emerald-300"
                 } group`}
               >
                 {link.label}
                 <span
-                  className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-300 to-orange-500 rounded-full transition-all duration-500 ease-out
-                  ${
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-emerald-300 to-emerald-500 rounded-full transition-all duration-500 ease-out ${
                     pathname === link.href && (!isProducts || query === "")
                       ? "w-full"
                       : "w-0 group-hover:w-full"
                   }`}
-                ></span>
+                />
               </Link>
             );
           })}
@@ -195,7 +183,7 @@ export default function Navbar() {
           {/* Cart */}
           <Link
             href="/cart"
-            className="relative p-1.5 sm:p-2 rounded-full bg-orange-800 hover:bg-orange-700 transition-colors shadow-md"
+            className="relative p-1.5 sm:p-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-md"
           >
             <ShoppingCart className="text-white w-5 h-5 sm:w-6 sm:h-6" />
             {cartCount > 0 && (
